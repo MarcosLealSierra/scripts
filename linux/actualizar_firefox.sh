@@ -19,7 +19,7 @@
 
 cd /opt/firefox_quantum
 
-sudo wget -O FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"
+sudo wget -O FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=es-ES"
 sudo tar -jxvf FirefoxSetup.tar.bz2
 sudo rm -frv FirefoxSetup.tar.bz2
 
