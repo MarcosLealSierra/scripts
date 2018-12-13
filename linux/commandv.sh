@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function ispacket {
     _=$(command -v $1);
