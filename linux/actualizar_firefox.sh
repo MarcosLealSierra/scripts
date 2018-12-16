@@ -1,4 +1,4 @@
-#!/bin/bash 
+#! /bin/bash 
 
 #Replace and update Firefox ESR to Firefox Quantum
 #Copyright © 2018 Marcos Leal Sierra <marcoslealsierra90@gmail.com>
@@ -17,14 +17,31 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-cd /opt/firefox_quantum
+update_firefox () {
+    cd /opt/firefox_quantum
 
-sudo wget -O FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=es-ES"
-sudo tar -jxvf FirefoxSetup.tar.bz2
-sudo rm -frv FirefoxSetup.tar.bz2
+    echo "Descargando última versión de Firefox..."
+    wget -O FirefoxSetup.tar.bz2 -q "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=es-ES"
+    tar -jxf FirefoxSetup.tar.bz2
+    rm -f FirefoxSetup.tar.bz2
 
-sudo mv /usr/lib/firefox-esr/firefox-esr /usr/lib/firefox-esr/firefox-esr.bak
-sudo mv /usr/bin/firefox /usr/bin/firefox.bak
+    if [ ! -f /usr/lib/firefox-esr/firefox-esr.bak ] && [ ! -f /usr/bin/firefox.bak ]; then
+        echo "Creando backup de Firefox ESR..."
+        mv /usr/lib/firefox-esr/firefox-esr /usr/lib/firefox-esr/firefox-esr.bak
+        mv /usr/bin/firefox /usr/bin/firefox.bak
+    else
+        echo "Ya existe backup de Firefox ESR, sustituyendo binarios por los de Quantum..."
+        rm -f /usr/lib/firefox-esr/firefox-esr /usr/bin/firefox
+        ln -s /opt/firefox_quantum/firefox/firefox /usr/lib/firefox-esr/firefox-esr
+        ln -s /opt/firefox_quantum/firefox/firefox /usr/bin/firefox
+    fi
 
-sudo ln -s /opt/firefox_quantum/firefox/firefox /usr/lib/firefox-esr/firefox-esr
-sudo ln -s /opt/firefox_quantum/firefox/firefox /usr/bin/firefox
+    echo "Finalizado"
+}
+
+FIREFOX=$(declare -f update_firefox)
+
+sudo bash << EOF 
+$FIREFOX 
+update_firefox
+EOF
