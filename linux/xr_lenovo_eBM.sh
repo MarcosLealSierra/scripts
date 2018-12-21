@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Xrandr setup
+#Configuración de pantalla para la oficina y monitor 1080p no reconocido.
 #Copyright © 2018 Marcos Leal Sierra <marcoslealsierra90@gmail.com>
 
 #This program is free software: you can redistribute it and/or modify
@@ -15,6 +15,9 @@
 
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+set -e
 
 RESX=${1:-1920}
 RESY=${2:-1080}
