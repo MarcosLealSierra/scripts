@@ -23,7 +23,7 @@ sudo cryptsetup open --type luks /dev/sdb1 backupcifrado
 echo "Montando partición cifrada..."
 sudo mount -t ext4 /dev/mapper/backupcifrado || exit 1
 
-sudo rsync -avh --delete --progress --exclude-from=/home/mleal/Otros/rsync_ignorelist /home/mleal /media/mleal/backupcifrado/backup/
+sudo rsync -avh --delete --progress --exclude-from=/home/mleal/Otros/rsync/rsync_ignorelist /home/mleal /media/mleal/backupcifrado/backup/
 sudo rsync -avh --delete --progress /etc /media/mleal/backupcifrado/backup/
 echo "Backup done."
 
