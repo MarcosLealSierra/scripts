@@ -34,7 +34,7 @@ echo "Bloqueando partición cifrada..."
 sudo cryptsetup close /dev/mapper/backupcifrado
 
 echo "Quitando disco de forma seguroa..."
-#sudo udisksctl unmount /dev/sdb2
-#sudo udisksctl power-off /dev/sdb
+sudo udisksctl unmount -b /dev/sdb2
+sudo udisksctl power-off -b /dev/sdb
 
 echo "Puedes desenchufar tu HDD externo"
