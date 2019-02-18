@@ -33,8 +33,9 @@ sudo umount /media/mleal/backupcifrado
 echo "Bloqueando partición cifrada..."
 sudo cryptsetup close /dev/mapper/backupcifrado
 
-echo "Quitando disco de forma seguroa..."
+echo "Quitando disco de forma segura..."
 sudo udisksctl unmount -b /dev/sdb2
 sudo udisksctl power-off -b /dev/sdb
 
+sleep 7
 echo "Puedes desenchufar tu HDD externo"
