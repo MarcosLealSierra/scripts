@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 #Script para copia de seguridad de mi home y /etc en disco duro externo cifrado con LUKS
 #Copyright © 2018 Marcos Leal Sierra <marcoslealsierra90@gmail.com>
@@ -17,14 +17,17 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+usbdevice=/media/mleal/backupcifrado/backup/
+ignorelist=${HOME}/Otros/rsync/rsync_ignorelist
+
 echo "Desbloqueando partición cifrada..."
 sudo cryptsetup open --type luks /dev/sdb1 backupcifrado
 
 echo "Montando partición cifrada..."
 sudo mount -t ext4 /dev/mapper/backupcifrado || exit 1
 
-sudo rsync -avh --delete --progress --exclude-from=/home/mleal/Otros/rsync/rsync_ignorelist /home/mleal /media/mleal/backupcifrado/backup/
-sudo rsync -avh --delete --progress /etc /media/mleal/backupcifrado/backup/
+sudo rsync -avh --delete --progress --exclude-from=$ignorelist $HOME $usbdevice
+sudo rsync -avh --delete --progress /etc $usbdevice
 echo "Backup done."
 
 echo "Desmontando partición cifrada..."

@@ -1,30 +1,35 @@
 # Scripts
 
-1. [Introduction](#Introduction)
+![License](https://img.shields.io/badge/License-GPL3-blue.svg)
 
-2. [GNU/Linux](#GNU/Linux)
+Table of Contents
+----------------------------
 
-   2.1. [2bin](#2bin)
+* [Introduction](#Introduction)
 
-   2.2. [actualizar_firefox](#actualizar_firefox)
+* [GNU/Linux](#GNU/Linux)
 
-   2.3. [actualizar_plugins_vim](#actualizar_plugins_vim)
+	* [2bin](#2bin)
 
-   2.4. [actualizar_repos](#actualizar_repos)
+	* [actualizar_firefox](#actualizar_firefox)
 
-   2.5. [copia_home](#copia_home)
+	* [actualizar_plugins_vim](#actualizar_plugins_vim)
 
-   2.6. [ksar](#ksar)
+	* [actualizar_repos](#actualizar_repos)
 
-   2.7. [mvc_cgi_estructure](#mvc_cgi_estructure)
+	* [copia_home](#copia_home)
 
-   2.8. [uod](#uod)
+	* [ksar](#ksar)
 
-   2.9. [xr_lenovo_eBM](#xr_lenovo_eBM)
+	* [mvc_cgi_estructure](#mvc_cgi_estructure)
 
-3. [Microsoft Windows](#Microsfot Windows)
+	* [uod](#uod)
 
-   3.1. [check_mnprogram_gui](#check_mnprogram_gui)
+	* [xr_lenovo_eBM](#xr_lenovo_eBM)
+
+* [Microsoft Windows](#Microsfot Windows)
+
+	* [check_mnprogram_gui](#check_mnprogram_gui)
 
 ## Introduction
 

@@ -17,19 +17,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-source ~/.bash_lib
+source $HOME/.bash_lib
 
-DIR_PLUGINS=$HOME/.vim/pack/plugins/start
+path_plugins=$HOME/.vim/pack/plugins/start
+separador="\n----------------------------------------------------------\n"
 
-for i in $DIR_PLUGINS/*; do
+for i in $path_plugins/*; do
+    plugin=$(basename $i)
     if [[ -d $i ]] && [[ -d $i/.git ]]; then
-        echo -e "Plugin: $GREEN$(basename ${i}) $NC \n"
-        cd $i
-        git pull -v
-        echo -e "\n---------------------------------------------------------\n"
+        echo -e "Plugin: $GREEN $plugin $NC \n"
+        git -C $i pull -v
+        echo -e $separador
     else
-        echo -e "Plugin: $RED$(basename ${i}) $NC \n"
-        echo "$(basename ${i}) no tiene repositorio"
-        echo -e "\n---------------------------------------------------------\n"
+        echo -e "Plugin: $RED $plugin $NC \n"
+        echo "$plugin no tiene repositorio"
+        echo -e $separador
     fi
 done

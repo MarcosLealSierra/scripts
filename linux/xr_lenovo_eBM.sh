@@ -19,12 +19,12 @@
 
 set -e
 
-RESX=${1:-1920}
-RESY=${2:-1080}
+resx=${1:-1920}
+resy=${2:-1080}
 
-read X MODELINE MODE <<< $(cvt $RESX $RESY 60 | grep Modeline)
+read X modeline mode <<< $(cvt $resx $resy 60 | grep modeline)
 
-xrandr --newmode $MODELINE $MODE
-xrandr --addmode HDMI-1 $MODELINE
-xrandr --output HDMI-1 --mode $MODELINE
+xrandr --newmode $modeline $mode
+xrandr --addmode HDMI-1 $modeline
+xrandr --output HDMI-1 --mode $modeline
 xrandr --output eDP-1 --mode 1366x768 --pos 0x1080

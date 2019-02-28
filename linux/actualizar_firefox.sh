@@ -17,13 +17,14 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-update_firefox () {
-    cd /opt/firefox_quantum
+path=/opt/firefox_quantum
+url="https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=es-ES"
 
+update_firefox () {
     echo "Descargando última versión de Firefox..."
-    wget -O FirefoxSetup.tar.bz2 -q "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=es-ES"
-    tar -jxf FirefoxSetup.tar.bz2
-    rm -f FirefoxSetup.tar.bz2
+    wget FirefoxSetup.tar.bz2 -O $path/FirefoxSetup.tar.bz2 -q $url
+    tar -jxf $path/FirefoxSetup.tar.bz2
+    rm -f $path/FirefoxSetup.tar.bz2
 
     if [ ! -f /usr/lib/firefox-esr/firefox-esr.bak ] && [ ! -f /usr/bin/firefox.bak ]; then
         echo "Creando backup de Firefox ESR..."
@@ -39,9 +40,8 @@ update_firefox () {
     echo "Finalizado"
 }
 
-FIREFOX=$(declare -f update_firefox)
-
+firefox=$(declare -f update_firefox)
 sudo bash << EOF 
-$FIREFOX 
+$firefx
 update_firefox
 EOF

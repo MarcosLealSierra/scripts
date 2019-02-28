@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 #Lanzador de ksar para evaluar datos de systat
 #Copyright © 2018 Marcos Leal Sierra <marcoslealsierra90@gmail.com>
@@ -17,12 +17,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-KSAR_PATH="/home/mleal/Otros/kSar/ksar-5.2.4-SNAPSHOT-all.jar"
-MULTIPLE="/home/mleal/Otros/kSar/kSar-5.0.6/kSar.jar"
-FILE=$1
+ksar_path="/home/mleal/Otros/kSar/ksar-5.2.4-SNAPSHOT-all.jar"
+multiple="/home/mleal/Otros/kSar/kSar-5.0.6/kSar.jar"
+file=$1
 
 if [ -z $1  ] || [ -z $2  ]; then
-    java -jar $KSAR_PATH -input $FILE -tile cpuFixedAxis
+    java -jar $ksar_path -input $file -tile cpuFixedAxis
 else
-    java -jar $MULTIPLE -input $1 -input $2
+    java -jar $multiple -input $1 -input $2
 fi

@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 #Generar estructura de desarrollo de aplicación web en MVC con CGI y python
 #Copyright © 2018 Marcos Leal Sierra <marcoslealsierra@gmail.com>
@@ -17,20 +17,20 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-APPLICATION=/srv/websites/$1/rootsystem/application
-LOGS=/srv/websites/$1/logs
-PLANTILLAS=/home/mleal/Plantillas/mvc_cgi
+application=/srv/websites/$1/rootsystem/application
+logs=/srv/websites/$1/logs
+plantillas=/home/mleal/plantillas/mvc_cgi
 
-mkdir -p $APPLICATION/{core,modules}
-touch $APPLICATION/__init__.py $APPLICATION/modules/__init__.py
-cp $PLANTILLAS/settings.py $APPLICATION/settings.py
-cp $PLANTILLAS/config.py $APPLICATION/config.py
-cp $PLANTILLAS/xfc.py $APPLICATION/xfc.py
+mkdir -p $application/{core,modules}
+touch $application/__init__.py $application/modules/__init__.py
+cp $plantillas/settings.py $application/settings.py
+cp $plantillas/config.py $application/config.py
+cp $plantillas/xfc.py $application/xfc.py
 
-mkdir -p $LOGS
-touch $LOGS/error.log $LOGS/access.log
+mkdir -p $logs
+touch $logs/error.log $logs/access.log
 
-cp $PLANTILLAS/vhost_cgi.conf /etc/apache2/sites-available/$1.conf
+cp $plantillas/vhost_cgi.conf /etc/apache2/sites-available/$1.conf
 sed -i -e "s/<mvc_example>/$1/g" /etc/apache2/sites-available/$1.conf
 
 a2dismod mpm_event

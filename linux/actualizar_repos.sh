@@ -18,35 +18,32 @@
 
 
 source ~/.bash_lib
-
-REPOS=$HOME/src
-SEPARADOR="$DARKGRAY\n---------------------------------------------------------\n$NC"
+path_repos=$HOME/src
+separador="$DARKGRAY\n---------------------------------------------------------\n$NC"
 
 function pull_local_repos() {
-    for i in $REPOS/*; do 
+    for i in $path_repos/*; do 
         if [[ -d $i ]] && [[ -d $i/.git ]]; then
             echo -e "$GREEN$(basename $i)$NC \n"
-            cd $i
-            git pull -v
-            echo -e "$SEPARADOR"
+            git -C $i pull -v
+            echo -e "$separador"
         elif [[ -d $i ]] && [[ -d $i/.bzr ]]; then
             echo -e "$(basename $i) \n"
-            cd $i
-            bzr pull -v
-            echo -e "$SEPARADOR"
+            bzr pull $i -v
+            echo -e "$separador"
         else
             echo -e "$RED$(basename $i)$NC \n\n Sin repositorio encontrado/configurado"
-            echo -e "$SEPARADOR"
+            echo -e "$separador"
         fi
     done
 }
 
-ping -c 1 -q 192.168.161.109
+ping -c 1 -q 192.168.161.109 &>> /dev/null
 
 if [ $? != 0 ]; then
-    nmcli c up eBM
+    nmcli c up ebmproyectos
     pull_local_repos
-    nmcli c down eBM
+    nmcli c down ebmproyectos
 else
     pull_local_repos
 fi
