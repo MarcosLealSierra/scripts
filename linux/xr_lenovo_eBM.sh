@@ -22,7 +22,7 @@ set -e
 resx=${1:-1920}
 resy=${2:-1080}
 
-read X modeline mode <<< $(cvt $resx $resy 60 | grep modeline)
+read x modeline mode <<< $(cvt $resx $resy 60 | grep Modeline)
 
 xrandr --newmode $modeline $mode
 xrandr --addmode HDMI-1 $modeline
