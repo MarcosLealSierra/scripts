@@ -38,7 +38,7 @@ function pull_local_repos() {
     done
 }
 
-ping -c 1 -q 192.168.161.109 &>> /dev/null
+ping -c 1 -q 192.168.161.109 > /dev/null 2>&1
 
 if [ $? != 0 ]; then
     nmcli c up ebmproyectos
