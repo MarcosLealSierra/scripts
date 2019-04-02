@@ -33,11 +33,16 @@ touch $logs/error.log $logs/access.log
 cp $plantillas/vhost_cgi.conf /etc/apache2/sites-available/$1.conf
 sed -i -e "s/<mvc_example>/$1/g" /etc/apache2/sites-available/$1.conf
 
-a2dismod mpm_event
-a2enmod mpm_prefork
-service apache2 restart
+ls /etc/apache2/mods-enabled | grep "mpm_event"
 
-a2enmod cgi
-a2enmod rewrite
-a2ensite $1
-service apache2 restart
+if [ $? -eq 0 ]; then
+    a2dismod mpm_event
+    a2enmod mpm_prefork
+    a2enmod cgi
+    a2enmod rewrite
+    a2ensite $1
+    service apache2 restart
+else
+    a2ensite $1
+    service apache2 restart
+fi
