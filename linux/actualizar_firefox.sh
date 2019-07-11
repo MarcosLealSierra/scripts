@@ -14,34 +14,46 @@
 #GNU General Public License for more details.
 
 #You should have received a copy of the GNU General Public License
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-path=/opt/firefox_quantum
-url="https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=es-ES"
 
 update_firefox () {
-    echo "Descargando última versión de Firefox..."
-    wget FirefoxSetup.tar.bz2 -O $path/FirefoxSetup.tar.bz2 -q $url
-    tar -jxf $path/FirefoxSetup.tar.bz2
-    rm -f $path/FirefoxSetup.tar.bz2
+    path=/opt/firefox_quantum
+    url="https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=es-ES"
+    backup_lib=/usr/lib/firefox-esr/firefox-esr.bak
+    backup_bin=/usr/bin/firefox.bak
 
-    if [ ! -f /usr/lib/firefox-esr/firefox-esr.bak ] && [ ! -f /usr/bin/firefox.bak ]; then
-        echo "Creando backup de Firefox ESR..."
-        mv /usr/lib/firefox-esr/firefox-esr /usr/lib/firefox-esr/firefox-esr.bak
-        mv /usr/bin/firefox /usr/bin/firefox.bak
-    else
-        echo "Ya existe backup de Firefox ESR, sustituyendo binarios por los de Quantum..."
-        rm -f /usr/lib/firefox-esr/firefox-esr /usr/bin/firefox
-        ln -s /opt/firefox_quantum/firefox/firefox /usr/lib/firefox-esr/firefox-esr
-        ln -s /opt/firefox_quantum/firefox/firefox /usr/bin/firefox
+    if [ ! -d ${path} ]; then
+        mkdir -p ${path}
     fi
 
-    echo "Finalizado"
+    echo "Descargando última versión de Firefox..."
+    wget FirefoxSetup.tar.bz2 -O ${path}/FirefoxSetup.tar.bz2 -q ${url}
+   
+    if [ -d ${path}/firefox ]; then
+        echo "Eliminando antigua versión..."
+        rm -fr ${path}/firefox
+    fi
+
+    echo "Descomprimiendo archivos..."
+    tar -jxf ${path}/FirefoxSetup.tar.bz2 -C ${path}
+    
+    if [ ! -f ${backup_lib} ] && [ ! -f ${backup_bin} ]; then
+        echo "Creando backup de Firefox ESR..."
+        mv /usr/lib/firefox-esr/firefox-esr ${backup_lib}
+        mv /usr/bin/firefox ${backup_bin}
+    fi
+    
+    echo "Creando enlaces..."
+    rm -f /usr/lib/firefox-esr/firefox-esr /usr/bin/firefox
+    ln -s /opt/firefox_quantum/firefox/firefox /usr/lib/firefox-esr/firefox-esr
+    ln -s /opt/firefox_quantum/firefox/firefox /usr/bin/firefox
+    
+    echo "Actualizado."
 }
 
 firefox=$(declare -f update_firefox)
 sudo bash << EOF 
-$firefx
+${firefox}
 update_firefox
 EOF
