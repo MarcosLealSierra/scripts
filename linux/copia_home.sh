@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#Script para copia de seguridad de mi home y /etc en disco duro externo cifrado con LUKS
+#Copia de seguridad del home en disco duro externo cifrado con LUKS
 #Copyright © 2018 Marcos Leal Sierra <marcoslealsierra90@gmail.com>
 
 #This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,37 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-usbdevice=/media/mleal/backupcifrado/backup/
-ignorelist=${HOME}/Otros/rsync/rsync_ignorelist
+backup () {
+	usbdevice=/media/mleal/backupcifrado/backup/
+	ignorelist=${HOME}/Otros/rsync/ignorelist
 
-echo "Desbloqueando partición cifrada..."
-sudo cryptsetup open --type luks /dev/sdb1 backupcifrado
+	echo "Desbloqueando partición cifrada..."
+	sudo cryptsetup open --type luks /dev/sdb1 backupcifrado
 
-echo "Montando partición cifrada..."
-sudo mount -t ext4 /dev/mapper/backupcifrado || exit 1
+	echo "Montando partición cifrada..."
+	sudo mount -t ext4 /dev/mapper/backupcifrado || exit 1
 
-sudo rsync -avh --delete --progress --exclude-from=$ignorelist $HOME $usbdevice
-sudo rsync -avh --delete --progress /etc $usbdevice
-echo "Backup done."
+	sudo rsync -avh --delete --progress --exclude-from=$ignorelist $HOME $usbdevice
+	#sudo rsync -avh --delete --progress /etc $usbdevice
+	echo "Backup done."
 
-echo "Desmontando partición cifrada..."
-sudo umount /media/mleal/backupcifrado
+	echo "Desmontando partición cifrada..."
+	sudo umount /media/mleal/backupcifrado
 
-echo "Bloqueando partición cifrada..."
-sudo cryptsetup close /dev/mapper/backupcifrado
+	echo "Bloqueando partición cifrada..."
+	sudo cryptsetup close /dev/mapper/backupcifrado
 
-echo "Quitando disco de forma segura..."
-sudo udisksctl unmount -b /dev/sdb2
-sudo udisksctl power-off -b /dev/sdb
+	echo "Quitando disco de forma segura..."
+	sudo udisksctl unmount -b /dev/sdb2
+	sudo udisksctl power-off -b /dev/sdb
 
-sleep 7
-echo "Puedes desenchufar tu HDD externo"
+	sleep 7
+	echo "Puedes desenchufar tu HDD externo"
+}
+
+homebackup=$(declare -f backup)
+sudo bash << EOF 
+${homebackup}
+backup
+EOF
+
