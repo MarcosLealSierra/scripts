@@ -17,32 +17,44 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-application=/srv/websites/$1/rootsystem/application
-logs=/srv/websites/$1/logs
-plantillas=/home/mleal/plantillas/mvc_cgi
+proyecto=$1
 
-mkdir -p $application/{core,modules}
-touch $application/__init__.py $application/modules/__init__.py
-cp $plantillas/settings.py $application/settings.py
-cp $plantillas/config.py $application/config.py
-cp $plantillas/xfc.py $application/xfc.py
+function mvc_cgi() {
+	application=/srv/websites/$1/rootsystem/application
+	logs=/srv/websites/$1/logs
+	plantillas_python=/home/mleal/Plantillas/python/mvc_cgi
+	plantillas_apache=/home/mleal/Plantillas/apache
 
-mkdir -p $logs
-touch $logs/error.log $logs/access.log
+	mkdir -p $application/{core,modules}
+	touch $application/__init__.py $application/modules/__init__.py
+	cp $plantillas_python/settings.py $application/settings.py
+	cp $plantillas_python/config.py $application/config.py
+	cp $plantillas_python/xfc.py $application/xfc.py
 
-cp $plantillas/vhost_cgi.conf /etc/apache2/sites-available/$1.conf
-sed -i -e "s/<mvc_example>/$1/g" /etc/apache2/sites-available/$1.conf
+	mkdir -p $logs
+	touch $logs/error.log $logs/access.log
 
-ls /etc/apache2/mods-enabled | grep "mpm_event"
+	cp $plantillas_apache/vhost_cgi.conf /etc/apache2/sites-available/$1.conf
+	sed -i -e "s/<mvc_example>/$1/g" /etc/apache2/sites-available/$1.conf
 
-if [ $? -eq 0 ]; then
-    a2dismod mpm_event
-    a2enmod mpm_prefork
-    a2enmod cgi
-    a2enmod rewrite
-    a2ensite $1
-    service apache2 restart
-else
-    a2ensite $1
-    service apache2 restart
-fi
+	ls /etc/apache2/mods-enabled | grep "mpm_event"
+
+	if [ $? -eq 0 ]; then
+	a2dismod mpm_event
+	a2enmod mpm_prefork
+	a2enmod cgi
+	a2enmod rewrite
+	a2ensite $1
+	service apache2 restart
+	else
+	a2ensite $1
+	service apache2 restart
+	fi
+}
+
+mvc_cgi_project=$(declare -f mvc_cgi)
+sudo bash << EOF 
+$mvc_cgi_project
+mvc_cgi $proyecto
+EOF
+
