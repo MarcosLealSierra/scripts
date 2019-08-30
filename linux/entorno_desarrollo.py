@@ -33,6 +33,7 @@ static_files = get_files(static)
 
 panel = "tmux new-window -t {} -n seccion".format(proyecto)
 edicion = "cd {}; vim -c"
+plogs = "cd /srv/websites/{}/logs; tail -f error.log".format(proyecto)
 
 files_application = "e {}".format(application_files[0])
 application_files.pop(0)
@@ -56,8 +57,9 @@ for archivo in static_files:
 
 llamada = "; bash -i"
 
-panel_application = '{} "{} \'{}\'{}"'.format(panel, edicion.format(application), 
-    files_application, llamada).replace("seccion", "application")
+panel_application = '{} "{} \'{}\'{}"'.format(panel, 
+    edicion.format(application), files_application,
+    llamada).replace("seccion", "application")
 
 panel_modules = '{} "{} \'{}\'{}"'.format(panel, edicion.format(modules), 
     files_module, llamada).replace("seccion", "modules")
@@ -68,8 +70,7 @@ panel_static = '{} "{} \'{}\'{}"'.format(panel, edicion.format(static),
 panel_core = '{} "{} \'{}\'{}"'.format(panel, edicion.format(core), 
     files_core, llamada).replace("seccion", "core")
 
-panel_logs = '{}; "tail -f {}/error.log"'.format(panel, 
-    logs).replace("seccion", "logs")
+panel_logs = '{} "{}"'.format(panel, plogs).replace("seccion", "logs")
 
 comandos = [
     "tmux new-session -A -d -s {}".format(proyecto),
@@ -78,15 +79,13 @@ comandos = [
     panel_core,
     panel_static,
     panel_logs,
+    "tmux set-option -g pane-active-border-fg colour240",
     "tmux attach -t {}".format(proyecto)
 ]
 
-#set-option -g pane-active-border-fg colour240 #base01
 
 for indice, comando in enumerate(comandos):
     comandos[indice] = sh_split(comando)
 
 for comando in comandos:
-    #print(comando)
-    #p = Popen(comando, stdout=PIPE, stderr=PIPE)
     call(comando)
