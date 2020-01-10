@@ -28,7 +28,6 @@ backup () {
 	sudo mount -t ext4 /dev/mapper/backupcifrado || exit 1
 
 	sudo rsync -avh --delete --progress --exclude-from=$ignorelist $HOME $usbdevice
-	#sudo rsync -avh --delete --progress /etc $usbdevice
 	echo "Backup done."
 
 	echo "Desmontando partición cifrada..."
@@ -50,4 +49,3 @@ sudo bash << EOF
 ${homebackup}
 backup
 EOF
-
