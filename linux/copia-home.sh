@@ -18,6 +18,7 @@
 
 
 backup () {
+    udiskctl mount -b /dev/sda1
 	usbdevice=/media/mleal/Backups/
 	ignorelist=${HOME}/Otros/rsync/ignorelist
 
@@ -27,11 +28,8 @@ backup () {
 	#echo "Montando partición cifrada..."
 	#sudo mount -t ext4 /dev/mapper/backupcifrado || exit 1
 
-	sudo rsync -avh --delete --progress --exclude-from="$ignorelist" "$HOME" "$usbdevice"
+	rsync -avh --delete --progress --exclude-from="$ignorelist" "$HOME" "$usbdevice"
 	echo "Backup done."
-
-	echo "Desmontando partición cifrada..."
-	sudo umount /media/mleal/Backups
 
 	#echo "Bloqueando partición cifrada..."
 	#sudo cryptsetup close /dev/mapper/backupcifrado
