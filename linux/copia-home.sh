@@ -18,34 +18,34 @@
 
 
 backup () {
-	usbdevice=/media/mleal/backupcifrado/backup/
+	usbdevice=/media/mleal/Backups/
 	ignorelist=${HOME}/Otros/rsync/ignorelist
 
-	echo "Desbloqueando partición cifrada..."
-	sudo cryptsetup open --type luks /dev/sdb1 backupcifrado
+	#echo "Desbloqueando partición cifrada..."
+	#sudo cryptsetup open --type luks /dev/sdb1 backupcifrado
 
-	echo "Montando partición cifrada..."
-	sudo mount -t ext4 /dev/mapper/backupcifrado || exit 1
+	#echo "Montando partición cifrada..."
+	#sudo mount -t ext4 /dev/mapper/backupcifrado || exit 1
 
-	sudo rsync -avh --delete --progress --exclude-from=$ignorelist $HOME $usbdevice
+	sudo rsync -avh --delete --progress --exclude-from="$ignorelist" "$HOME" "$usbdevice"
 	echo "Backup done."
 
 	echo "Desmontando partición cifrada..."
-	sudo umount /media/mleal/backupcifrado
+	sudo umount /media/mleal/Backups
 
-	echo "Bloqueando partición cifrada..."
-	sudo cryptsetup close /dev/mapper/backupcifrado
+	#echo "Bloqueando partición cifrada..."
+	#sudo cryptsetup close /dev/mapper/backupcifrado
 
 	echo "Quitando disco de forma segura..."
-	sudo udisksctl unmount -b /dev/sdb2
-	sudo udisksctl power-off -b /dev/sdb
+	udisksctl unmount -b /dev/sda1
+	udisksctl power-off -b /dev/sda
 
 	sleep 7
 	echo "Puedes desenchufar tu HDD externo"
 }
 
-homebackup=$(declare -f backup)
-sudo bash << EOF 
-${homebackup}
+#homebackup=$(declare -f backup)
+#sudo bash << EOF 
+#${homebackup}
 backup
-EOF
+#EOF
