@@ -13,7 +13,8 @@ def find(name, path):
             return os.path.join(root, name)
 
 proyecto = "{}".format(argv[1]).replace("@", "").replace("/", "").replace(" ", "")
-target = find(proyecto, '/home/mleal/src')
+#target = find(proyecto, '/home/mleal/src')
+target = find(proyecto, '/srv/websites')
 application = "{}/rootsystem/application".format(target)
 modules = "{}/modules".format(application)
 static= "{}/rootsystem/static".format(target)
