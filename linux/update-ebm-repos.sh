@@ -17,30 +17,28 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-source ~/.bash_lib
-path_repos=$HOME/src
-separador="$DARKGRAY\n---------------------------------------------------------\n$NC"
+source "${HOME}"/.bash_lib
+path_repos="${HOME}"/src
+separador="${DARKGRAY}\n---------------------------------------------------------\n${NC}"
 
 function pull_local_repos() {
-    for i in $path_repos/*; do 
+    for i in "${path_repos}"/*; do 
         if [[ -d $i ]] && [[ -d $i/.git ]]; then
-            echo -e "$GREEN$(basename $i)$NC \n"
-            git -C $i pull -v
-            echo -e "$separador"
-        elif [[ -d $i ]] && [[ -d $i/.bzr ]]; then
-            echo -e "$(basename $i) \n"
-            bzr pull $i -v
-            echo -e "$separador"
+            echo -e "${GREEN}$(basename "${i}")${NC} \n"
+            git -C "${i}" pull -v
+            echo -e "${separador}"
+        elif [[ -d "${i}" ]] && [[ -d "${i}"/.bzr ]]; then
+            echo -e "$(basename "${i}") \n"
+            bzr pull "${i}" -v
+            echo -e "${separador}"
         else
-            echo -e "$RED$(basename $i)$NC \n\n Sin repositorio encontrado/configurado"
-            echo -e "$separador"
+            echo -e "${RED}$(basename "${i}")${NC} \n\n Sin repositorio encontrado/configurado"
+            echo -e "${separador}"
         fi
     done
 }
 
-ping -c 1 -q 192.168.161.109 > /dev/null 2>&1
-
-if [ $? != 0 ]; then
+if ! ping -c 1 -q 192.168.161.109 > /dev/null 2>&1; then
     nmcli c up ebmproyectos
     pull_local_repos
     nmcli c down ebmproyectos
