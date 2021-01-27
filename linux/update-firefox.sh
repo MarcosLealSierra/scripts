@@ -23,25 +23,25 @@ update_firefox () {
     backup_lib=/usr/lib/firefox-esr/firefox-esr.bak
     backup_bin=/usr/bin/firefox.bak
 
-    if [ ! -d ${path} ]; then
-        mkdir -p ${path}
+    if [ ! -d "${path}" ]; then
+        mkdir -p "${path}"
     fi
 
     echo "Descargando última versión de Firefox..."
-    wget FirefoxSetup.tar.bz2 -O ${path}/FirefoxSetup.tar.bz2 -q ${url}
+    wget FirefoxSetup.tar.bz2 -O "${path}"/FirefoxSetup.tar.bz2 -q "${url}"
    
-    if [ -d ${path}/firefox ]; then
+    if [ -d "${path}"/firefox ]; then
         echo "Eliminando antigua versión..."
-        rm -fr ${path}/firefox
+        rm -fr "${path}"/firefox
     fi
 
     echo "Descomprimiendo archivos..."
-    tar -jxf ${path}/FirefoxSetup.tar.bz2 -C ${path}
+    tar -jxf "${path}"/FirefoxSetup.tar.bz2 -C "${path}"
     
-    if [ ! -f ${backup_lib} ] && [ ! -f ${backup_bin} ]; then
+    if [ ! -f "${backup_lib}" ] && [ ! -f "${backup_bin}" ]; then
         echo "Creando backup de Firefox ESR..."
-        mv /usr/lib/firefox-esr/firefox-esr ${backup_lib}
-        mv /usr/bin/firefox ${backup_bin}
+        mv /usr/lib/firefox-esr/firefox-esr "${backup_lib}"
+        mv /usr/bin/firefox "${backup_bin}"
     fi
     
     echo "Creando enlaces..."

@@ -17,20 +17,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-source $HOME/.bash_lib
+source "$HOME"/.bash_lib
 
-path_plugins=$HOME/.tmux/plugins
+path_plugins="$HOME"/.tmux/plugins
 separador="\n----------------------------------------------------------\n"
 
-for i in $path_plugins/*; do
-    plugin=$(basename $i)
-    if [[ -d $i ]] && [[ -d $i/.git ]]; then
+for i in "$path_plugins"/*; do
+    plugin=$(basename "$i")
+    if [[ -d "$i" ]] && [[ -d "$i"/.git ]]; then
         echo -e "Plugin: $GREEN $plugin $NC \n"
-        git -C $i pull -v
-        echo -e $separador
+        git -C "$i" pull -v
+        echo -e "$separador"
     else
         echo -e "Plugin: $RED $plugin $NC \n"
         echo "$plugin no tiene repositorio"
-        echo -e $separador
+        echo -e "$separador"
     fi
 done
