@@ -20,38 +20,38 @@
 proyecto=$1
 
 function mvc_cgi() {
-	application=/srv/websites/$1/rootsystem/application
+    application=/srv/websites/$1/rootsystem/application
     static=/srv/websites/$1/rootsystem/static
-	logs=/srv/websites/$1/logs
-	plantillas_python=/home/mleal/Plantillas/python/mvc_cgi
-	plantillas_apache=/home/mleal/Plantillas/apache
+    logs=/srv/websites/$1/logs
+    plantillas_python=/home/mleal/Plantillas/python/mvc_cgi
+    plantillas_apache=/home/mleal/Plantillas/apache
 
-	mkdir -p $application/{core,modules}
+    mkdir -p $application/{core,modules}
     mkdir -p $static/{assets/{back/{css,img,js,media},front/{css,img,js,media}},html/{back,front}}
-	touch $application/__init__.py $application/modules/__init__.py
-	cp $plantillas_python/settings.py $application/settings.py
-	cp $plantillas_python/config.py $application/config.py
-	cp $plantillas_python/xfc.py $application/xfc.py
+    touch $application/__init__.py $application/modules/__init__.py
+    cp $plantillas_python/settings.py $application/settings.py
+    cp $plantillas_python/config.py $application/config.py
+    cp $plantillas_python/xfc.py $application/xfc.py
 
-	mkdir -p $logs
-	touch $logs/error.log $logs/access.log
+    mkdir -p $logs
+    touch $logs/error.log $logs/access.log
 
-	cp $plantillas_apache/vhost_cgi.conf /etc/apache2/sites-available/$1.conf
-	sed -i -e "s/<mvc_example>/$1/g" /etc/apache2/sites-available/$1.conf
+    cp $plantillas_apache/vhost_cgi.conf /etc/apache2/sites-available/$1.conf
+    sed -i -e "s/<mvc_example>/$1/g" /etc/apache2/sites-available/$1.conf
 
-	ls /etc/apache2/mods-enabled | grep "mpm_event"
+    ls /etc/apache2/mods-enabled | grep "mpm_event"
 
-	if [ $? -eq 0 ]; then
-	a2dismod mpm_event
-	a2enmod mpm_prefork
-	a2enmod cgi
-	a2enmod rewrite
-	a2ensite $1
-	service apache2 restart
-	else
-	a2ensite $1
-	service apache2 restart
-	fi
+    if [ $? -eq 0 ]; then
+        a2dismod mpm_event
+        a2enmod mpm_prefork
+        a2enmod cgi
+        a2enmod rewrite
+        a2ensite $1
+        service apache2 restart
+    else
+        a2ensite $1
+        service apache2 restart
+    fi
 }
 
 mvc_cgi_project=$(declare -f mvc_cgi)
@@ -59,4 +59,3 @@ sudo bash << EOF
 $mvc_cgi_project
 mvc_cgi $proyecto
 EOF
-
