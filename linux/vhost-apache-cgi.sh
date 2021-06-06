@@ -21,11 +21,13 @@ proyecto=$1
 
 function mvc_cgi() {
 	application=/srv/websites/$1/rootsystem/application
+    static=/srv/websites/$1/rootsystem/static
 	logs=/srv/websites/$1/logs
 	plantillas_python=/home/mleal/Plantillas/python/mvc_cgi
 	plantillas_apache=/home/mleal/Plantillas/apache
 
 	mkdir -p $application/{core,modules}
+    mkdir -p $static/{assets/{back/{css,img,js,media},front/{css,img,js,media}},html/{back,front}}
 	touch $application/__init__.py $application/modules/__init__.py
 	cp $plantillas_python/settings.py $application/settings.py
 	cp $plantillas_python/config.py $application/config.py
